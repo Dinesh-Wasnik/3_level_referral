@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class RegisteredUserController extends Controller
 {
@@ -22,6 +23,13 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         return view('auth.register');
+    }
+
+    public function messages(): array
+    {
+        return [
+            'refer_by.gdgdgd' => 'Code not found'
+        ];
     }
 
     /**
@@ -38,7 +46,27 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         
-        $refer_by = empty($request->refer_by) ?  0 : $request->refer_by;
+        $refer_by = 0 ;
+
+        if(!empty($request->refer_by))
+        {  
+
+            $user = User::where('id', '=', $request->refer_by)->first();
+
+            $customMessages =  [
+                'refer_by.email' => 'Code not found'
+            ];
+            
+            if ($user === null) {
+                    $request->validate([
+                             'refer_by' => ['email'],
+                        ], $customMessages);       
+            }
+
+            $refer_by = $request->refer_by;
+        }
+        
+      
 
         $user = User::create([
             'name' => $request->name,
