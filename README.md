@@ -5,7 +5,7 @@
 ## Problem Statement
 Create a login and the registration page. It's Referral and it's three level Referral system.
 
-User and Wallet CRUD.
+User and Wallet CRUD operation.
 
 When User will add money in wallet than the Parent will get Commission based on below calulation.
 - First level  = 10%,
@@ -38,11 +38,9 @@ when User login show referral earning whith level wise.
 
  - ```Composer install``` .
  
-
  - ```PHP artisan migrate ``` 
 
  - ```PHP artisan db:seed ``` 
-
 
 
 # Note
